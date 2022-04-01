@@ -82,10 +82,7 @@ public class LibroServicio {
 
         }
     }
-    
-    
-    
-    
+
     @Transactional
     public void deshabilitar(String id) throws ErrorServicio {
 
@@ -129,9 +126,7 @@ public class LibroServicio {
 
     }
 
-    
-    
-    
+    ////  preguntar forma correcta de validar si en esta parse  ////
     private void validar(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados,
             Integer ejemplaresRestantes) throws ErrorServicio {
 

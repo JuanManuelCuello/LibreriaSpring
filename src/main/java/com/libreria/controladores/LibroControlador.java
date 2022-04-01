@@ -52,7 +52,7 @@ public class LibroControlador {
         return "libros.html";
 
     }
-
+   
     @PostMapping("/crearLibro")
     public String crearLibro(RedirectAttributes attr,@RequestParam String isbn, @RequestParam String titulo, @RequestParam String anio, @RequestParam String ejemplares,
             @RequestParam String ejemplaresPrestados, @RequestParam String ejemplaresRestantes, @RequestParam(required = false) String idAutor,
@@ -73,6 +73,28 @@ public class LibroControlador {
         return "redirect:/libros";
     }
 
+    @GetMapping("/editar-perfil")
+    public String editarLibro (@RequestParam String id, ModelMap modelo) throws ErrorServicio{
+                         
+        List<Autor> autores = autorServicio.listarTodos();
+        modelo.put("autores", autores);
+        
+        List<Editorial> editoriales = editorialServicio.listarTodos() ;
+        modelo.put("editoriales", editoriales);
+        
+        try{
+            Libro libro = libroServicio.buscarPorId(id);
+            modelo.addAttribute("perfil" , libro);
+        } catch (ErrorServicio e){
+          modelo.addAttribute("error", e.getMessage());
+            
+        }
+       return "redirect:/libros";
+        
+    }
+    
+    
+    
     @GetMapping("/eliminarLibro/{id}")
     public String eliminarLibro(@PathVariable("id") String id) {
 
