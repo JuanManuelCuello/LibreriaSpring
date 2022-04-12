@@ -37,6 +37,7 @@ public class LibroServicio {
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
         libro.setEjemplaresRestantes(ejemplaresRestantes);
+
         libro.setAlta(true);
         Autor autor = autorServicio.buscarPorId(idAutor);
         libro.setAutor(autor);
@@ -48,8 +49,8 @@ public class LibroServicio {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public void modificarLibro(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados,
-            Integer ejemplaresRestantes) throws ErrorServicio {
+    public void editarLibro(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados,
+            Integer ejemplaresRestantes, String idAutor, String idEditorial) throws ErrorServicio {
 
         validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes);
 
@@ -63,6 +64,13 @@ public class LibroServicio {
             libro.setEjemplares(ejemplares);
             libro.setEjemplaresPrestados(ejemplaresPrestados);
             libro.setEjemplaresRestantes(ejemplaresRestantes);
+
+            Autor autor = autorServicio.buscarPorId(idAutor);
+            libro.setAutor(autor);
+
+            Editorial editorial = editorialServicio.buscarPorId(idEditorial);
+            libro.setEditorial(editorial);
+
             libroRepositorio.save(libro);
         } else {
             throw new ErrorServicio("No se encontró el libro a modificar");
@@ -120,6 +128,7 @@ public class LibroServicio {
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
             libroRepositorio.deleteById(respuesta.get().getId());
+//            libroRepositorio.deleteById(id);
         } else {
             throw new ErrorServicio("No se encuentra el libro a eliminar");
         }

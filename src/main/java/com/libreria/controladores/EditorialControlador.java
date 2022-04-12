@@ -1,4 +1,3 @@
-
 package com.libreria.controladores;
 
 import com.libreria.errores.ErrorServicio;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public class EditorialControlador {
 
-
     @Autowired
     private EditorialServicio editorialServicio;
 
@@ -31,6 +29,7 @@ public class EditorialControlador {
         try {
 
             editorialServicio.crearEditorial(nombre);
+            attr.addFlashAttribute("exito", "Se cargo la editorial correctamente");
 
         } catch (ErrorServicio e) {
             attr.addFlashAttribute("error", e.getMessage());
@@ -41,17 +40,3 @@ public class EditorialControlador {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
